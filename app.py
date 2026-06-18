@@ -1,52 +1,28 @@
 import streamlit as st
-from data_manager import init_data
-from ui_components import (
-    school_schedule_ui,
-    performance_ui,
-    show_data,
-    show_upcoming
-)
-from ai_utils import ai_summary
 
 st.set_page_config(
     page_title="5반 AI 학사비서",
-    page_icon="📚",
-    layout="wide"
+    page_icon="📚"
 )
+
+if "school_events" not in st.session_state:
+    st.session_state.school_events = []
+
+if "performance_tasks" not in st.session_state:
+    st.session_state.performance_tasks = []
 
 st.title("📚 5반 AI 학사비서")
 
-init_data()
+st.markdown("""
+### 기능 안내
 
-col1, col2 = st.columns(2)
+🏫 학사일정 관리
 
-with col1:
-    school_schedule_ui()
+📝 수행평가 관리
 
-with col2:
-    performance_ui()
+🤖 AI 공지 생성
 
-st.divider()
+왼쪽 사이드바에서 메뉴를 선택하세요.
+""")
 
-show_data()
-
-st.divider()
-
-show_upcoming()
-
-st.divider()
-
-st.subheader("🤖 AI 공지 생성")
-
-if st.button("AI 공지 만들기"):
-
-    result = ai_summary(
-        st.session_state.school_events,
-        st.session_state.performance_tasks
-    )
-
-    st.text_area(
-        "공지문",
-        result,
-        height=350
-    )
+st.info("5반 단톡방 공지용 AI 비서")
